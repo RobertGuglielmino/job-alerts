@@ -3,7 +3,14 @@
 ## Setup Instructions:
 
 ### Set up the Code
-1) Download this repository by pressing XXXXXXXXX
+1) Download this application using one of the following:
+ 
+    If you don't use github regularly,
+    - Press `Code`
+    - Press `Download ZIP`
+    - Unzip the code wherever you would like.
+
+    Otherwise, `git clone https://github.com/RobertGuglielmino/job-alerts.git`
 2) If you don't have Python, download the latest version of Python (https://www.python.org/downloads/)
 3) If you haven't done so already, set up Docker locally by going to https://docs.docker.com/desktop/, clicking Install Docker Desktop at the bottom, and following the instructions on the website.
 4) Sign in to Docker Desktop
