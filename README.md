@@ -66,6 +66,21 @@ In `email.txt`, you need to put in information so that the application can send 
 
 #
 
+
+### Add Job Boards to Watch
+
+In `job_boards.txt`, add url links to the job boards you want to watch. Add each job link on a new line. The application also works if the job board lets you filter by location or department - filter first, copy the url, and put it in!
+
+It should look like the following. 
+
+```
+https://www.talkiatry.com/jobs
+https://discord.com/careers
+https://motionrecruitment.com/tech-jobs?remote=true&keywords=software&start=0
+```
+
+#
+
 ### AUTOMATING THE PROGRAM ENTIRELY 
 
  This sets up the program to run automatically when you log into your computer.
