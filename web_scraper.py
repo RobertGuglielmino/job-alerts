@@ -1,63 +1,26 @@
-import time
-import requests
-from bs4 import BeautifulSoup
-import schedule
-import time
-
-from job_boards import JOB_LINKS
-from job_titles import BAD_NAMES, GOOD_NAMES
-from notifiers import notifyDesktop
-
+import asyncio
+from lib.job_notifier import JobNotifier
 # https://medium.com/@beckernick/faster-web-scraping-in-python-e3fba2ebb541
 
 
-def scrape(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    
-    jobList = []
-    htmlTags = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-    # TODO multiple tags besides p
-    for a in soup.findAll('a'):
-        if a.p and checkTitle(a.p.text):
-            print(a['href'])
-            jobList.append(a['href'])
-        if a.h3 and checkTitle(a.h3.text):
-            print(a['href'])
-            jobList.append(a['href'])
+async def check_job_boards():
+    notifier = JobNotifier()
+    await notifier.check_job_boards()  # Your original check function
 
-    return jobList
-
-def checkTitle(title):
-    for name in GOOD_NAMES:
-        if name not in title:
-            return False
-    for name in BAD_NAMES:
-        if name in title:
-            return False
-    # TODO check if in list already
-    return True
-
-
-def checkJobs():
-    start_time = time.time()
-    newJobs = []
-
-    for job in JOB_LINKS:
-        newJobs = scrape(job)
-
-    for w in newJobs:
-        notifyDesktop(w)
-
-    print("--- %s seconds ---" % (time.time() - start_time))
-
-def main():
-    schedule.every(30).minutes.do(checkJobs)
-
+async def schedule_periodic():
     while True:
-        schedule.run_pending()
-        time.sleep(1)  # Check for scheduled tasks every second
+        try:
+            await check_job_boards()
+        except Exception as e:
+            print(f"Error in check_job_boards: {e}")
+            # You might want to add logging here
+        
+        # Wait for 1 hour
+        await asyncio.sleep(3600)  # 3600 seconds = 1 hour
+        
+async def main():
+    # Start the periodic task
+    await schedule_periodic()
 
-if __name__ == '__main__':
-    # main()
-    checkJobs()
+if __name__ == "__main__":
+    asyncio.run(main())

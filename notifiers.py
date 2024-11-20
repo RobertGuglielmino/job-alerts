@@ -1,63 +1,48 @@
 
+from datetime import datetime
 from email.message import EmailMessage
+from email.mime.text import MIMEText
+import os
 import smtplib
 import ssl
+from typing import Dict, List
 
-from plyer import notification
+def send_email(subject: str, body: str):
+    email_file = _load_file_lines(f"config/email.txt")
+    email = email_file[0]  # First line is email
+    app_pw = email_file[1]  # Second line is application password
+    print(f"sending email to {email}")
 
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = email 
+    msg['To'] = email
 
-def notifyDesktop(title):
-    notification.notify(
-        title='this is crazy',
-        message='This is a notification message.',
-        app_name='My App',
-        timeout=10  # Duration in seconds
-    )
-
-def notifyEmail(title):
-    
-    message = EmailMessage()
-    message.set_content('https://job-boards.greenhouse.io/growtherapy?offices%5B%5D=4011317005')
-
-    # me == the sender's email address
-    # you == the recipient's email address
-    message['Subject'] = f'job time'
-    message['From'] = "robert.gugliel@gmail.com"
-    message['To'] = "robert.gugliel@gmail.com"
-
-    # Create secure SSL/TLS context
-    context = ssl.create_default_context()
-
+    # Configure your SMTP settings
     try:
-        # For Gmail
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.set_debuglevel(1)  # Enable debug output
-        
-        print("Connecting to server...")
-        server.starttls(context=context)  # Enable TLS with secure context
-        
-        print("Logging in...")
-        server.login("robert.gugliel@gmail.com", "PUT YOUR PASSWORD HERE")
-        
-        print("Sending email...")
-        server.send_message(message)
-        print("Email sent successfully!")
-        
-    except smtplib.SMTPAuthenticationError:
-        print("Authentication failed. Please check your email and password.")
-        print("If using Gmail, make sure you're using an App Password.")
-    except ConnectionRefusedError:
-        print("Connection refused. Please check:")
-        print("1. Your internet connection")
-        print("2. Firewall settings")
-        print("3. Antivirus settings")
-    except smtplib.SMTPException as e:
-        print(f"SMTP error occurred: {e}")
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(email, app_pw)
+            server.send_message(msg)
     except Exception as e:
-        print(f"An error occurred: {e}")
-    finally:
-        try:
-            server.quit()
-        except:
-            pass
+        print(f"could not send email: {e}")
+
+
+def format_jobs_email(new_jobs: List[Dict[str, str]]):
+    msg_body = "New jobs !\n\n"
+    for job in new_jobs:
+        msg_body += f"{job['title']}: {job['url']}\n\n"
+
+    send_email('it\'s job time', msg_body)
+
+
+def format_string_email(msg_body):
+    send_email('cant parse page', msg_body)
+
+        
+def _load_file_lines(filename: str) -> List[str]:
+    if os.path.exists(filename):
+        with open(filename, 'r') as f:
+            return [line.strip() for line in f if line.strip()]
+    return []
 

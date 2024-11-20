@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  job-notifier:
+    build: .
+    volumes:
+      # Mount config directory
+      - ./config:/app/config
+    environment:
+      - CONFIG_DIR=/app/config
+    restart: unless-stopped
