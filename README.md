@@ -5,8 +5,8 @@
 The summary for how to set up the application:
 
 1) [DOWNLOAD](#set-up-the-code) - Download the code, and Set Up Docker to run the code 
-2) [PREFERENCES](#update-your-preferences) Set up your job preferences
-3) [AUTOMATE](#automating-the-program-entirely) Set your computer to run the code when you log in
+2) [PREFERENCES] - (#update-your-preferences) Set up your job preferences
+3) [AUTOMATE] - (#automating-the-program-entirely) Set your computer to run the code when you log in
 
 The rest is step by step details for accomplishing those things.
 
