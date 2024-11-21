@@ -2,7 +2,15 @@
 
 ## Setup Instructions:
 
-### Set up the Code
+The summary for how to set up the application:
+
+1) [DOWNLOAD](#set-up-the-code) - Download the code, and Set Up Docker to run the code 
+2) [PREFERENCES](#update-your-preferences) Set up your job preferences
+3) [AUTOMATE](#automating-the-program-entirely) Set your computer to run the code when you log in
+
+The rest is step by step details for accomplishing those things.
+
+### 1. Set up the Code
 1) Download this application using one of the following:
  
     If you don't use github regularly,
@@ -11,15 +19,15 @@
     - Unzip the code wherever you would like.
 
     Otherwise, `git clone https://github.com/RobertGuglielmino/job-alerts.git`
-2) If you don't have Python, download the latest version of Python (https://www.python.org/downloads/)
-3) If you haven't done so already, set up Docker locally by going to https://docs.docker.com/desktop/, clicking Install Docker Desktop at the bottom, and following the instructions on the website.
-4) Sign in to Docker Desktop
-5) FINALLY, cut and paste `.wslconfig` from here to your `C:\Users\{Your User}` folder (cutting is okay, we don't need it here!)
+2) If you haven't done so already, set up Docker locally by going to https://docs.docker.com/desktop/, clicking Install Docker Desktop at the bottom, and following the instructions on the website.
+3) Sign in to Docker Desktop
+4) WINDOWS ONLY -  cut and paste `.wslconfig` from here to your `C:\Users\{Your User}` folder (cutting is okay, we don't need it here!)
+    - This issue may exist on Mac but I don't have a test device yet
     - I found that starting up Docker through a command would allocate it 100% of my CPU usage. This limits Docker's resources and lets everything run normally :)
 
 #
 
-### How This Works
+#### How This Works
 
 This program works off of Allow Lists and Block Lists to target the exact job titles you are looking for.
 
@@ -36,13 +44,16 @@ Electrical Engineer
 
 #
 
-### Update your Preferences
+### 2. Update your Preferences
 
 Open the app/config file within the files you downloaded. You should see 5 files, titled `allow_list`, `block_list`, `email`, `job_boards`, and `jobs_seen`
 
 1) In `allow_list.txt`, add words that you want to see in your job titles.
 2) In `block_list.txt`, add words to be filtered out from jobs found by the `allow_list`
 
+#
+
+If you're curious, here is additional info on each of the files:
 
  `job_boards` - the jobs boards you want to be checked, with each job board on a new line.
 
@@ -57,7 +68,7 @@ Open the app/config file within the files you downloaded. You should see 5 files
 #
 
 
-### Update your Email Information
+#### Update your Email Information
 
 In `email.txt`, you need to put in information so that the application can send you the notifications you want to receive
 - Replace `email@test.com` with your email address.
@@ -67,7 +78,7 @@ In `email.txt`, you need to put in information so that the application can send 
 #
 
 
-### Add Job Boards to Watch
+#### Add Job Boards to Watch
 
 In `job_boards.txt`, add url links to the job boards you want to watch. Add each job link on a new line. The application also works if the job board lets you filter by location or department - filter first, copy the url, and put it in!
 
@@ -81,14 +92,17 @@ https://motionrecruitment.com/tech-jobs?remote=true&keywords=software&start=0
 
 #
 
-### AUTOMATING THE PROGRAM ENTIRELY 
+### 3. AUTOMATING THE PROGRAM ENTIRELY 
 
  This sets up the program to run automatically when you log into your computer.
 
+Click here if you use [Windows](#windows---set-up-automation)
 
+Or click here for [Mac](#mac---set-up-automation)
 
-#### Set Up Executable
+#### Windows - Set Up Automation
 
+ 
 We need to set up the automatic function to work with your machine specifically.
 
 1) In the code you downloaded, right-click `window_scheduler.bat` and click `Edit`
@@ -98,10 +112,8 @@ We need to set up the automatic function to work with your machine specifically.
 5) repeat steps 2-4, but replace `APP_LOCATION` with the `job-alerts` folder (this project!)
 6) save the file
 
+After this, we can set the computer to run the machine as you log in.
 
-#### Set Up Automation
-
- Windows:
  1) Press `Windows + S`
  2) Type `Task Scheduler`
  3) Open `Task Scheduler`
@@ -116,10 +128,20 @@ We need to set up the automatic function to work with your machine specifically.
  9) Click Next.
  10) Click Next, Again.
 
- Mac:
+#### Mac - Set Up Automation
 
-    unknown lmk ty
+ 1) Find and start `Automater.app`
+ 2) Select `Application`
+ 3) Click `Show Library` in the toolbar, if hidden
+ 4) Add `Run shell script` from Actions/Utilities
+ 5) Copy-Paste the contents of `mac_scheduler.sh` into the window.
+ 6) Save it as `job_board_tracker.app` somewhere on your device (desktop works!) 
+ 7) Go to `System Preferences` -> `General` -> `Login Items`
+ 8) Add `job_board_tracker.app`
 
+#
+
+We're done! Log out, log back in, and see if Docker starts up, and that you get an email!
 
 ### Feedback 
 If you have any questions or feedback about this documentation, email me at `robert.gugliel@gmail.com` to help improve this process!
