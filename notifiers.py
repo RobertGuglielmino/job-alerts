@@ -29,7 +29,11 @@ def send_email(subject: str, body: str):
 
 
 def format_jobs_email(new_jobs: List[Dict[str, str]]):
-    msg_body = "New jobs !\n\n"
+
+    if len(new_jobs) == 0:
+        return
+
+    msg_body = ""
     for job in new_jobs:
         msg_body += f"{job['title']}: {job['url']}\n\n"
 
