@@ -1,3 +1,4 @@
 __pycache__
-config/*
+config/*.txt
+config/*.json
 window_scheduler.bat

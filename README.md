@@ -48,8 +48,8 @@ Electrical Engineer
 
 Open the app/config file within the files you downloaded. You should see 5 files, titled `allow_list`, `block_list`, `email`, `job_boards`, and `jobs_seen`
 
-1) In `allow_list.txt`, add words that you want to see in your job titles.
-2) In `block_list.txt`, add words to be filtered out from jobs found by the `allow_list`
+1) In `allow_list.txt`, add words that you want to see in your job titles, with each word on a new line.
+2) In `block_list.txt`, add words to be filtered out from jobs found by the `allow_list`, with each word on a new line.
 
 #
 
