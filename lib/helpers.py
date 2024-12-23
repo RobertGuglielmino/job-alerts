@@ -111,6 +111,8 @@ def _detect_pagination_pattern(url: str, html: str) -> Optional[PaginationPatter
 
 def _get_next_page_url(pattern: PaginationPattern, html: str) -> Optional[str]:
     """Get the URL for the next page based on the detected pattern."""
+    if pattern == None:
+        return None
     if pattern.type == 'query_param':
         parsed_url = urlparse(pattern.url)
         query_params = parse_qs(parsed_url.query)

@@ -2,7 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-def detect_nextjs_and_pagination(url: str) -> bool:
+from notifiers import format_string_email
+
+def is_content_scrapeable(url: str) -> bool:
     try:
         # Fetch the webpage
         response = requests.get(url)
@@ -18,14 +20,16 @@ def detect_nextjs_and_pagination(url: str) -> bool:
         # Check for pagination
         has_pagination = _detect_pagination(soup)
         
-        return has_nextjs and has_pagination
+        if has_nextjs and has_pagination:
+            JOB_BOARD_ISSUES = f"{url} has both generated content and pagination. This app doesn't have the capabilities (yet) to read the following pages, so you will still have to manually check the listed job board."
+            format_string_email(JOB_BOARD_ISSUES)
+            return False
+        
+        return True
     
     except Exception as e:
         print(f"Error analyzing webpage: {str(e)}")
-        return {
-            'is_nextjs': False,
-            'has_pagination': False
-        }
+        return False
 
 def _detect_nextjs(soup: BeautifulSoup) -> bool:
     # Check for indicators of client-side rendered content
